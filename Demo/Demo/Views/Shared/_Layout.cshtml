@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link href="~/Content/materialize.css" rel="stylesheet" />
+    <script src="~/Scripts/materialize.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<style type="text/css">
+   #left_content{
+        height:93vh;
+        font-size:2em;
+    }
+    input[type="search"] {
+height: 64px !important; /* or height of nav */
+}
+</style>
+    
+<body>
+    
+    <div class="nav-wrapper">
+        <nav class="light-green darken-1" id="w7" role="navigation">
+            <div class="container navbar-fixed">
+                <a class="brand-logo" href="#">ICDB Lite</a>
+                <div id="w7-collapse">
+                    <ul id="w8" class="right hide-on-med-and-down">
+                        <li>
+                            <form>
+                                <div class="input-field">
+                                    <input id="search" placeholder="Search..." type="search" required>
+                                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                    <i class="material-icons">close</i>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                 
+                    
+
+                </div>
+            </div>
+         
+        </nav>
+    </div>
+    <div class="row">
+
+        <div id="left_content" class="col s2 blue-grey lighten-5">
+            <!-- Grey navigation panel -->
+            <ul class="section table-of-contents">
+                <li><a href="@Url.Action("index", "home")" class="active">Home</a></li>
+                <li><a href="#popout" class="">Report</a></li>
+                <li><a href="@Url.Action("index", "production_log")" class="">Discovery</a></li>
+                <li><a href="#intialization" class="">Rediscovery</a></li>
+                <li><a href="@Url.Action("index", "production_log")" class="">Imaging</a></li>
+                <li><a href="#methods" class="">Monitor Discovery</a></li>
+                <li><a href="#accordion" class="">Settings</a></li>
+                <li><a href="#expandable">Pallets</a></li>
+            </ul>
+        </div>
+
+        <div class="col s10">
+          
+                <div class="container">
+                    @RenderBody()
+                </div>
+           
+          
+        </div>
+
+    </div>
+
+    
+    
+</body>
+<script>
+  
+</script>
