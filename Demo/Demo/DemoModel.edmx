@@ -11,6 +11,7 @@
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Discriminator" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="aspnetuserclaims">
           <Key>
@@ -56,6 +57,7 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="department" Type="varchar" MaxLength="45" />
+          <Property Name="Discriminator" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="asset_tag_counter">
           <Key>
@@ -82,13 +84,31 @@
           <Property Name="location" Type="varchar" MaxLength="100" />
           <Property Name="row_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="coas_history">
+          <Key>
+            <PropertyRef Name="COA_ID" />
+          </Key>
+          <Property Name="Request_ID" Type="int" />
+          <Property Name="COA_ID" Type="char" MaxLength="100" Nullable="false" />
+          <Property Name="Product_Name" Type="char" MaxLength="100" />
+          <Property Name="Pre-existing COA ID" Type="char" MaxLength="100" />
+          <Property Name="License_Type" Type="char" MaxLength="100" />
+          <Property Name="PK" Type="char" MaxLength="100" Nullable="false" />
+          <Property Name="PDF_language" Type="char" MaxLength="100" />
+          <Property Name="Recipient_Organization_Name" Type="char" MaxLength="100" />
+          <Property Name="Recipient City" Type="char" MaxLength="100" />
+          <Property Name="Recipient Country / Region" Type="char" MaxLength="100" />
+          <Property Name="Recipient_Type" Type="char" MaxLength="100" />
+          <Property Name="location" Type="varchar" MaxLength="100" />
+          <Property Name="row_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="discovery">
           <Key>
             <PropertyRef Name="ictag" />
           </Key>
           <Property Name="ictag" Type="int" Nullable="false" />
           <Property Name="time" Type="datetime" Precision="0" />
-          <Property Name="serial" Type="varchar" MaxLength="45" />
+          <Property Name="serial" Type="varchar" MaxLength="255" />
           <Property Name="brand" Type="varchar" MaxLength="45" />
           <Property Name="model" Type="varchar" MaxLength="45" />
           <Property Name="cpu" Type="varchar" MaxLength="128" />
@@ -96,6 +116,7 @@
           <Property Name="ram" Type="varchar" MaxLength="45" />
           <Property Name="optical_drive" Type="varchar" MaxLength="100" />
           <Property Name="location" Type="varchar" MaxLength="45" />
+          <Property Name="has_SSD" Type="char" MaxLength="50" />
         </EntityType>
         <EntityType Name="label_log">
           <Key>
@@ -175,7 +196,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Key>
             <PropertyRef Name="wcoa" />
           </Key>
-          <Property Name="time" Type="datetime" Precision="0" />
+          <Property Name="time" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="ictags" Type="char" MaxLength="100" />
           <Property Name="wcoa" Type="char" MaxLength="100" Nullable="false" />
           <Property Name="ocoa" Type="char" MaxLength="100" />
@@ -185,19 +206,22 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Property Name="RAM" Type="char" MaxLength="100" />
           <Property Name="HDD" Type="char" MaxLength="100" />
           <Property Name="serial" Type="char" MaxLength="100" />
-          <Property Name="channel" Type="char" MaxLength="100" />
+          <Property Name="channel" Type="char" MaxLength="150" />
           <Property Name="pre_coa" Type="char" MaxLength="100" />
           <Property Name="location" Type="char" MaxLength="100" />
           <Property Name="video_card" Type="char" MaxLength="100" />
           <Property Name="screen_size" Type="char" MaxLength="100" />
+          <Property Name="bin_location" Type="char" MaxLength="100" />
+          <Property Name="status" Type="char" MaxLength="50" />
+          <Property Name="assign_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="rediscovery">
           <Key>
             <PropertyRef Name="ictag" />
           </Key>
           <Property Name="ictag" Type="int" Nullable="false" />
-          <Property Name="time" Type="datetime" Precision="0" />
-          <Property Name="serial" Type="varchar" MaxLength="45" />
+          <Property Name="time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" />
+          <Property Name="serial" Type="varchar" MaxLength="255" />
           <Property Name="brand" Type="varchar" MaxLength="45" />
           <Property Name="model" Type="varchar" MaxLength="45" />
           <Property Name="cpu" Type="varchar" MaxLength="128" />
@@ -208,6 +232,9 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Property Name="pallet" Type="varchar" MaxLength="45" />
           <Property Name="pre_coa" Type="varchar" MaxLength="75" />
           <Property Name="refurbisher" Type="char" MaxLength="100" />
+          <Property Name="status" Type="char" MaxLength="50" />
+          <Property Name="orderNum" Type="char" MaxLength="100" />
+          <Property Name="has_SSD" Type="char" MaxLength="50" />
         </EntityType>
         <EntityType Name="setting">
           <Key>
@@ -306,6 +333,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <EntitySet Name="aspnetusers" EntityType="Self.aspnetusers" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="asset_tag_counter" EntityType="Self.asset_tag_counter" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="coas" EntityType="Self.coas" Schema="db_a094d4_demo" store:Type="Tables" />
+          <EntitySet Name="coas_history" EntityType="Self.coas_history" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="discovery" EntityType="Self.discovery" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="label_log" EntityType="Self.label_log" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="label_menu" EntityType="Self.label_menu" Schema="db_a094d4_demo" store:Type="Tables" />
@@ -348,6 +376,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           </Key>
           <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Discriminator" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="aspnetusers" Relationship="Self.aspnetuserroles" FromRole="aspnetroles" ToRole="aspnetusers" />
         </EntityType>
         <EntityType Name="aspnetuserclaims">
@@ -388,6 +417,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="department" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Discriminator" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="aspnetuserclaims" Relationship="Self.ApplicationUser_Claims" FromRole="aspnetusers" ToRole="aspnetuserclaims" />
           <NavigationProperty Name="aspnetuserlogins" Relationship="Self.ApplicationUser_Logins" FromRole="aspnetusers" ToRole="aspnetuserlogins" />
           <NavigationProperty Name="aspnetroles" Relationship="Self.aspnetuserroles" FromRole="aspnetusers" ToRole="aspnetroles" />
@@ -417,13 +447,31 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="row_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
+        <EntityType Name="coas_history">
+          <Key>
+            <PropertyRef Name="COA_ID" />
+          </Key>
+          <Property Name="Request_ID" Type="Int32" />
+          <Property Name="COA_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pre_existing_COA_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="License_Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PK" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PDF_language" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Recipient_Organization_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Recipient_City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Recipient_Country___Region" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Recipient_Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="row_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
         <EntityType Name="discovery">
           <Key>
             <PropertyRef Name="ictag" />
           </Key>
           <Property Name="ictag" Type="Int32" Nullable="false" />
           <Property Name="time" Type="DateTime" />
-          <Property Name="serial" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="serial" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="brand" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="model" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="cpu" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
@@ -431,6 +479,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Property Name="ram" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="optical_drive" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="location" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="has_SSD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="label_log">
           <Key>
@@ -504,7 +553,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Key>
             <PropertyRef Name="wcoa" />
           </Key>
-          <Property Name="time" Type="DateTime" />
+          <Property Name="time" Type="DateTime" Nullable="false" />
           <Property Name="ictags" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="wcoa" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ocoa" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -514,19 +563,22 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Property Name="RAM" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="HDD" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="serial" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="channel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="channel" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="pre_coa" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="video_card" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="screen_size" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="bin_location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="assign_time" Type="DateTime" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="rediscovery">
           <Key>
             <PropertyRef Name="ictag" />
           </Key>
           <Property Name="ictag" Type="Int32" Nullable="false" />
-          <Property Name="time" Type="DateTime" />
-          <Property Name="serial" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="time" Type="DateTime" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serial" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="brand" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="model" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="cpu" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
@@ -537,6 +589,9 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Property Name="pallet" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="pre_coa" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
           <Property Name="refurbisher" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="orderNum" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="has_SSD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="setting">
           <Key>
@@ -610,6 +665,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <EntitySet Name="aspnetusers" EntityType="Self.aspnetusers" />
           <EntitySet Name="asset_tag_counter" EntityType="Self.asset_tag_counter" />
           <EntitySet Name="coas" EntityType="Self.coas" />
+          <EntitySet Name="coas_history" EntityType="Self.coas_history" />
           <EntitySet Name="discovery" EntityType="Self.discovery" />
           <EntitySet Name="label_log" EntityType="Self.label_log" />
           <EntitySet Name="label_menu" EntityType="Self.label_menu" />
@@ -648,6 +704,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
               <MappingFragment StoreEntitySet="aspnetroles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -686,6 +743,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
                 <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -716,6 +774,25 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="coas_history">
+            <EntityTypeMapping TypeName="db_a094d4_demoModel.coas_history">
+              <MappingFragment StoreEntitySet="coas_history">
+                <ScalarProperty Name="Request_ID" ColumnName="Request_ID" />
+                <ScalarProperty Name="COA_ID" ColumnName="COA_ID" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Pre_existing_COA_ID" ColumnName="Pre-existing COA ID" />
+                <ScalarProperty Name="License_Type" ColumnName="License_Type" />
+                <ScalarProperty Name="PK" ColumnName="PK" />
+                <ScalarProperty Name="PDF_language" ColumnName="PDF_language" />
+                <ScalarProperty Name="Recipient_Organization_Name" ColumnName="Recipient_Organization_Name" />
+                <ScalarProperty Name="Recipient_City" ColumnName="Recipient City" />
+                <ScalarProperty Name="Recipient_Country___Region" ColumnName="Recipient Country / Region" />
+                <ScalarProperty Name="Recipient_Type" ColumnName="Recipient_Type" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="row_id" ColumnName="row_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="discovery">
             <EntityTypeMapping TypeName="db_a094d4_demoModel.discovery">
               <MappingFragment StoreEntitySet="discovery">
@@ -729,6 +806,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
                 <ScalarProperty Name="ram" ColumnName="ram" />
                 <ScalarProperty Name="optical_drive" ColumnName="optical_drive" />
                 <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="has_SSD" ColumnName="has_SSD" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -825,6 +903,9 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
                 <ScalarProperty Name="location" ColumnName="location" />
                 <ScalarProperty Name="video_card" ColumnName="video_card" />
                 <ScalarProperty Name="screen_size" ColumnName="screen_size" />
+                <ScalarProperty Name="bin_location" ColumnName="bin_location" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="assign_time" ColumnName="assign_time" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -844,6 +925,9 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
                 <ScalarProperty Name="pallet" ColumnName="pallet" />
                 <ScalarProperty Name="pre_coa" ColumnName="pre_coa" />
                 <ScalarProperty Name="refurbisher" ColumnName="refurbisher" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="orderNum" ColumnName="orderNum" />
+                <ScalarProperty Name="has_SSD" ColumnName="has_SSD" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

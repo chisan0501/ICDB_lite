@@ -48,6 +48,7 @@ namespace Demo.Models
 
     public class LoginViewModel
     {
+        
         [Required]
         [Display(Name = "Email")]
         [EmailAddress]
@@ -59,15 +60,46 @@ namespace Demo.Models
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
+        public bool RememberMe {
+
+            get
+            {
+                return true;
+            }
+            set
+            {
+                RememberMe = value;
+            }
+
+        }
     }
 
     public class RegisterViewModel
     {
+
+        
+        
+        [Required]
+        [Display(Name = "UserRoles")]
+        public string UserRoles { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
-        public string Email { get; set; }
+        public string Email
+        {
+            get;set;
+        }
+
+        
+        [Display(Name = "User Name")]
+        public string UserName {
+            get;set;
+            
+
+        }
+        
+       
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

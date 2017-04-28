@@ -17,7 +17,7 @@ namespace Demo.Controllers
         // GET: production_log
         public ActionResult Index()
         {
-            return View(db.production_log.ToList());
+            return View();
         }
 
         // GET: production_log/Details/5

@@ -3,3 +3,233 @@
     ViewBag.Title = "Home";
 }
 
+<div class="row">
+    @* top section of the page *@
+    <div class="col s12">
+
+
+
+    </div>
+    <div class="col s12">
+        <div class="row">
+            <form>
+                <div class="col s6">
+                    <h3 class="header"><i class="material-icons">home</i>Home</h3>
+                </div>
+                <div class="col s3">
+                    <label for="date_from" class="">From</label>
+                    <input id="date_from" type="date" class="datepicker">
+                </div>
+                <div class="col s3">
+                    <label for="date_to" class="">To</label>
+                    <input id="date_to" type="date" class="datepicker">
+                </div>
+            </form>
+</div>
+ 
+                <div class="divider"></div>
+            </div>
+    <div class="col s3">
+        <div class="card-panel hoverable light-green lighten-3">
+            <h5>Discovery</h5>
+            <h3 id="discovery_num">0</h3>
+        </div>
+        </div>
+    <div class="col s3">
+        <div class="card-panel hoverable light-green lighten-3">
+            <h5>Rediscovery</h5>
+            <h3 id="rediscovery_num">0</h3>
+        </div>
+    </div>
+    <div class="col s3">
+        <div class="card-panel hoverable light-green lighten-3">
+            <h5>Imaging</h5>
+            <h3 id="imaging_num">0</h3>
+        </div>
+    </div>
+    <div class="col s3">
+        <div class="card-panel hoverable light-green lighten-3">
+            <h5>Monitor Discovery</h5>
+            <h3 id="monitor_dis_num">0</h3>
+        </div>
+    </div>
+
+
+        @* body of the page *@
+        <div class="col s6">
+            <div class="card-panel grey lighten-2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Left:Windows COA, Right:Office COA">
+                <h3 class="header">COAs Level</h3>
+
+                <div class="ct-chart ct-golden-section" id="chart1"></div>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="card-panel grey lighten-2">
+                <h3 class="header">Production Level</h3>
+
+                <div class="ct-chart ct-golden-section" id="production_chart"></div>
+            </div>
+        </div>
+    <div class="col s4">
+        <div class="card-panel grey lighten-2">
+            <h3 class="header">Discovery Level (Weekly)</h3>
+
+            <div class="ct-chart ct-golden-section" id="week_discovery_chart"></div>
+        </div>
+    </div>
+    <div class="col s4">
+        <div class="card-panel grey lighten-2">
+            <h3 class="header">Refrub Level (Weekly)</h3>
+
+            <div class="ct-chart ct-golden-section" id="week_rediscovery_chart"></div>
+        </div>
+    </div>
+    <div class="col s4">
+        <div class="card-panel grey lighten-2">
+            <h3 class="header">Imaging Level (Weekly)</h3>
+
+            <div class="ct-chart ct-golden-section" id="week_production_chart"></div>
+        </div>
+    </div>
+
+    </div>
+
+
+
+
+        <script>
+            $(document).ready(function () {
+                $('.tooltipped').tooltip({ delay: 50 });
+            });
+            // Initialize a Line chart in the container with the ID chart2
+          
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15 // Creates a dropdown of 15 years to control year
+            });
+
+
+            $.getJSON("@Url.Action("get_data")", function (data) {
+                $('#discovery_num').text(data.discovery);
+                $('#rediscovery_num').text(data.rediscovery);
+                $('#imaging_num').text(data.imaging);
+                $('#monitor_dis_num').text(data.monitor_data);
+
+                var dataArr = {
+                    labels: ['S1 TS', 'S2 TS', 'S1 MAR', 'S2 MAR', 'S1 G360', 'S2 G360'],
+                    series: [
+                        [data.tswcoas1, data.tswcoas2, data.marwcoas1, data.marwcoas2, data.g360wcoas1, data.g360wcoas2],
+                        [data.tsocoas1, data.tsocoas2, data.marocoas1, data.marocoas2, data.g360ocoas1, data.g360ocoas2]
+                    ]
+                };
+
+                var options = {
+                    seriesBarDistance: 15
+
+                };
+
+                var responsiveOptions = [
+                    ['screen and (min-width: 641px) and (max-width: 1024px)', {
+                        seriesBarDistance: 10,
+                        axisX: {
+                            labelInterpolationFnc: function (value) {
+                                return value;
+                            }
+                        }
+                    }],
+                    ['screen and (max-width: 640px)', {
+                        seriesBarDistance: 5,
+                        axisX: {
+                            labelInterpolationFnc: function (value) {
+                                return value[0];
+                            }
+                        }
+                    }]
+                ];
+
+                new Chartist.Bar('#chart1', dataArr, options, responsiveOptions);
+                
+                //production_level_chart
+                var pData = [];
+                var pTime = [];
+                
+                for (var i = 0; i < data.today_production_level.length; i++) {
+                   
+                    pTime.push(data.today_production_level[i].hours);
+                    pData.push(data.today_production_level[i].num);
+                }
+                new Chartist.Line('#production_chart', {
+                    labels: pTime,
+                    series: [
+                        pData,
+                        
+                    ]
+                }, {
+                        low: 0,
+                        showArea: true
+                    });
+
+                var weekPData = [];
+                var weekPTime = [];
+                var weekDData = [];
+                var weekDTime = [];
+                var weekRData = [];
+                var weekRTime = [];
+
+
+                for (var i = 0; i < data.pass7_production_level.length; i++) {
+
+                    weekPTime.push(data.pass7_production_level[i].date);
+                    weekPData.push(data.pass7_production_level[i].num);
+                }
+                for (var i = 0; i < data.pass7_discovery_level.length; i++) {
+
+                    weekDTime.push(data.pass7_discovery_level[i].date);
+                    weekDData.push(data.pass7_discovery_level[i].num);
+                }
+                for (var i = 0; i < data.pass7_rediscovery_level.length; i++) {
+
+                    weekRTime.push(data.pass7_rediscovery_level[i].date);
+                    weekRData.push(data.pass7_rediscovery_level[i].num);
+                }
+
+                //weekly production data chart
+                new Chartist.Line('#week_production_chart', {
+                    labels: weekPTime,
+                    series: [
+                        weekPData
+                    ]
+                }, {
+                        low: 0,
+                        showArea: true
+                    });
+                //weekly discovery data chart 
+                new Chartist.Line('#week_discovery_chart', {
+                    labels: weekDTime,
+                    series: [
+                        weekDData
+                    ]
+                }, {
+                        low: 0,
+                        showArea: true
+                    });
+                //weekly rediscovery data chart 
+                new Chartist.Line('#week_rediscovery_chart', {
+                    labels: weekRTime,
+                    series: [
+                        weekRData
+                    ]
+                }, {
+                        low: 0,
+                        showArea: true
+                    });
+
+
+
+            });
+
+            
+
+        </script>
+
+

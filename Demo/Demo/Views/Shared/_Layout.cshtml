@@ -7,6 +7,11 @@
     <link href="~/Content/materialize.css" rel="stylesheet" />
     <script src="~/Scripts/materialize.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <link href="~/Content/jsgrid.css" rel="stylesheet" />
+    <link href="~/Content/jsgrid-theme.css" rel="stylesheet" />
+    <script src="~/Scripts/jsgrid.js"></script>
 </head>
 <style type="text/css">
    #left_content{
@@ -20,20 +25,30 @@ height: 64px !important; /* or height of nav */
     
 <body>
     
+
+
     <div class="nav-wrapper">
         <nav class="light-green darken-1" id="w7" role="navigation">
             <div class="container navbar-fixed">
-                <a class="brand-logo" href="#">ICDB Lite</a>
+                <a class="brand-logo" href="#">DEMO ICDB Lite</a>
                 <div id="w7-collapse">
                     <ul id="w8" class="right hide-on-med-and-down">
                         <li>
-                            <form>
+                            <form id="search_form">
                                 <div class="input-field">
-                                    <input id="search" placeholder="Search..." type="search" required>
-                                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                    <input id="top_search_bar" type="search" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Enter Asset Tag to Begin Searching" placeholder="Search..." required>
+                                    <label  class="label-icon" for="search"><i class="medium material-icons">search</i></label>
                                     <i class="material-icons">close</i>
                                 </div>
                             </form>
+                        </li>
+                        <li>
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                            @Html.AntiForgeryToken()
+                        <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout" href="javascript:document.getElementById('logoutForm').submit()"><i class="material-icons">directions_run</i></a>
+                            }
+                        
                         </li>
                     </ul>
                  
@@ -46,34 +61,58 @@ height: 64px !important; /* or height of nav */
     </div>
     <div class="row">
 
-        <div id="left_content" class="col s2 blue-grey lighten-5">
+        <div id="left_content" class="col s3 blue-grey lighten-5">
             <!-- Grey navigation panel -->
             <ul class="section table-of-contents">
                 <li><a href="@Url.Action("index", "home")" class="active">Home</a></li>
                 <li><a href="#popout" class="">Report</a></li>
-                <li><a href="@Url.Action("index", "production_log")" class="">Discovery</a></li>
+                <li><a href="@Url.Action("index", "discoveries")" class="">Discovery</a></li>
                 <li><a href="#intialization" class="">Rediscovery</a></li>
                 <li><a href="@Url.Action("index", "production_log")" class="">Imaging</a></li>
                 <li><a href="#methods" class="">Monitor Discovery</a></li>
+                <li><a href="@Url.Action("index", "pallets")">Pallets</a></li>
                 <li><a href="#accordion" class="">Settings</a></li>
-                <li><a href="#expandable">Pallets</a></li>
+                
             </ul>
         </div>
 
-        <div class="col s10">
+        <div class="col s9">
           
-                <div class="container">
+                
                     @RenderBody()
-                </div>
+               
            
           
         </div>
 
     </div>
 
+    <!-- Modal Trigger -->
+
+
+    <!-- Modal Structure -->
     
     
 </body>
 <script>
-  
+    $("#search_form").submit(function (event) {
+
+
+
+        event.preventDefault();
+
+        var asset_tag = $('#top_search_bar').val();
+        
+        var link = "@Url.Action("search_result","home",new { asset_tag = "123" })";
+        link = link.replace("123", asset_tag);
+
+
+        window.location.href = link;
+
+
+
+
+    });
+
+
 </script>

@@ -31,6 +31,7 @@ namespace Demo
         public virtual DbSet<aspnetusers> aspnetusers { get; set; }
         public virtual DbSet<asset_tag_counter> asset_tag_counter { get; set; }
         public virtual DbSet<coas> coas { get; set; }
+        public virtual DbSet<coas_history> coas_history { get; set; }
         public virtual DbSet<discovery> discovery { get; set; }
         public virtual DbSet<label_log> label_log { get; set; }
         public virtual DbSet<label_menu> label_menu { get; set; }

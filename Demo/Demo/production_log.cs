@@ -14,7 +14,7 @@ namespace Demo
     
     public partial class production_log
     {
-        public Nullable<System.DateTime> time { get; set; }
+        public System.DateTime time { get; set; }
         public string ictags { get; set; }
         public string wcoa { get; set; }
         public string ocoa { get; set; }
@@ -29,5 +29,8 @@ namespace Demo
         public string location { get; set; }
         public string video_card { get; set; }
         public string screen_size { get; set; }
+        public string bin_location { get; set; }
+        public string status { get; set; }
+        public Nullable<System.DateTime> assign_time { get; set; }
     }
 }

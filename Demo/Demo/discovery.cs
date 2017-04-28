@@ -24,5 +24,6 @@ namespace Demo
         public string ram { get; set; }
         public string optical_drive { get; set; }
         public string location { get; set; }
+        public string has_SSD { get; set; }
     }
 }

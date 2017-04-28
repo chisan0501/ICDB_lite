@@ -22,6 +22,7 @@ namespace Demo
     
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Discriminator { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<aspnetusers> aspnetusers { get; set; }

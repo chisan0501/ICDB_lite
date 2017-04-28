@@ -35,6 +35,7 @@ namespace Demo
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
         public string department { get; set; }
+        public string Discriminator { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<aspnetuserclaims> aspnetuserclaims { get; set; }

@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "search_result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="header"><i class="small material-icons">search</i>Search Result for @ViewData["asset"]</h4>
+<div class="divider"></div>
+
+<div class="row">
+    <div class="col s12 m12">
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">Discovery</span>
+                <table class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Asset Tag</th>
+                            <th>Serial</th>
+                            <th>Manufacture</th>
+                            <th>Model</th>
+                            <th>CPU</th>
+                            <th>RAM</th>
+                            <th>HDD</th>
+                            <th>Optical Drive</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="discovery_data">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-action white-text">
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header blue-grey darken-1 active"><i class="material-icons">info</i>Additonal Info</div>
+                        <div class="collapsible-body">
+
+                            <table class="responsive-table">
+                                <thead>
+                                    <tr>
+                                       <th>Time</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="add_discovery_data"></tbody>
+                            </table>
+
+                        </div>
+                    </li>
+                    </ul>
+</div>
+        </div>
+    </div>
+    <div class="col s12 m12">
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">Rediscovery</span>
+                <table class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Asset Tag</th>
+                            <th>Serial</th>
+                            <th>Manufacture</th>
+                            <th>Model</th>
+                            <th>CPU</th>
+                            <th>RAM</th>
+                            <th>HDD</th>
+                            <th>Optical Drive</th>
+                          
+                        </tr>
+                    </thead>
+
+                    <tbody id="rediscovery_data">
+                       
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-action white-text">
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header blue-grey darken-1 active"><i class="material-icons">info</i>Additonal Info</div>
+                        <div class="collapsible-body">
+
+                            <table class="responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>SKU</th>
+                                        <th>Pre COA</th>
+                                        <th>Refurbisher</th>
+                                        <th>Has SSD</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="add_rediscovery_data"></tbody>
+                            </table>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m12">
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">Imaging</span>
+                <table class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Asset Tag</th>
+                            <th>Serial</th>
+                            <th>Manufacture</th>
+                            <th>Model</th>
+                            <th>CPU</th>
+                            <th>RAM</th>
+                            <th>HDD</th>
+                            
+                        </tr>
+                    </thead>
+
+                    <tbody id="imaging_data">
+                     
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-action white-text">
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header blue-grey darken-1 active"><i class="material-icons">info</i>Additonal Info</div>
+                        <div class="collapsible-body">
+
+                            <table class="responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>WCOA</th>
+                                        <th>OCOA</th>
+                                        <th>Video Card</th>
+                                        <th>Bin #</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="add_imaging_data"></tbody>
+                            </table>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('ul.tabs').tabs();
+    });
+
+    var data = {
+
+        asset_tag: @ViewData["asset"],
+    }
+    
+          $.getJSON("@Url.Action("search_result_json")",data ,function (data) {
+
+            
+            
+              if (data.discovery != null) {
+                  $('#discovery_data').html("<tr><td>" + data.discovery.ictag + "</td><td>" + data.discovery.serial + "</td><td>" + data.discovery.brand + "</td><td>" + data.discovery.model + "</td><td>" + data.discovery.cpu + "</td><td>" + data.discovery.ram + "</td><td>" + data.discovery.hdd + "</td><td>" + data.discovery.optical_drive + "</td></tr>")
+                  $('#add_discovery_data').html("<tr><td>" + data.discovery.time + "</td></tr>");
+              }
+              if (data.rediscovery != null) {
+                  $('#rediscovery_data').html("<tr><td>" + data.rediscovery.ictag + "</td><td>" + data.rediscovery.serial + "</td><td>" + data.rediscovery.brand + "</td><td>" + data.rediscovery.model + "</td><td>" + data.rediscovery.cpu + "</td><td>" + data.rediscovery.ram + "</td><td>" + data.rediscovery.hdd + "</td><td>" + data.rediscovery.optical_drive + "</td></tr>")
+                  $('#add_rediscovery_data').html("<tr><td>" + data.rediscovery.time + "</td><td>" + data.rediscovery.pallet + "</td><td>" + data.rediscovery.pre_coa + "</td><td>" + data.rediscovery.refurbisher + "</td><td>" + data.rediscovery.has_SSD + "</td></tr>");
+              }
+              if (data.imaging != null) {
+                  $('#imaging_data').html("<tr><td>" + data.imaging.ictags + "</td><td>" + data.imaging.serial + "</td><td>" + data.imaging.Manufacture + "</td><td>" + data.imaging.Model + "</td><td>" + data.imaging.CPU + "</td><td>" + data.imaging.RAM + "</td><td>" + data.imaging.HDD + "</td></tr>")
+                  $('#add_imaging_data').html("<tr><td>" + data.imaging.time + "</td><td>" + data.imaging.wcoa + "</td><td>" + data.imaging.ocoa + "</td><td>" + data.imaging.video_card + "</td><td>" + data.imaging.bin_location + "</td><td>" + data.imaging.status + "</td></tr>");
+
+              }
+
+    });
+   
+
+</script>

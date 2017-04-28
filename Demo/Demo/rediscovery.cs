@@ -27,5 +27,8 @@ namespace Demo
         public string pallet { get; set; }
         public string pre_coa { get; set; }
         public string refurbisher { get; set; }
+        public string status { get; set; }
+        public string orderNum { get; set; }
+        public string has_SSD { get; set; }
     }
 }
