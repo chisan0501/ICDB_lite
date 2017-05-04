@@ -174,14 +174,17 @@
             
             
               if (data.discovery != null) {
+                  data.discovery.time = moment(data.discovery.time).format("YYYY-MM-DD HH:mm");
                   $('#discovery_data').html("<tr><td>" + data.discovery.ictag + "</td><td>" + data.discovery.serial + "</td><td>" + data.discovery.brand + "</td><td>" + data.discovery.model + "</td><td>" + data.discovery.cpu + "</td><td>" + data.discovery.ram + "</td><td>" + data.discovery.hdd + "</td><td>" + data.discovery.optical_drive + "</td></tr>")
                   $('#add_discovery_data').html("<tr><td>" + data.discovery.time + "</td></tr>");
               }
               if (data.rediscovery != null) {
+                  data.rediscovery.time = moment(data.rediscovery.time).format("YYYY-MM-DD HH:mm");
                   $('#rediscovery_data').html("<tr><td>" + data.rediscovery.ictag + "</td><td>" + data.rediscovery.serial + "</td><td>" + data.rediscovery.brand + "</td><td>" + data.rediscovery.model + "</td><td>" + data.rediscovery.cpu + "</td><td>" + data.rediscovery.ram + "</td><td>" + data.rediscovery.hdd + "</td><td>" + data.rediscovery.optical_drive + "</td></tr>")
                   $('#add_rediscovery_data').html("<tr><td>" + data.rediscovery.time + "</td><td>" + data.rediscovery.pallet + "</td><td>" + data.rediscovery.pre_coa + "</td><td>" + data.rediscovery.refurbisher + "</td><td>" + data.rediscovery.has_SSD + "</td></tr>");
               }
               if (data.imaging != null) {
+                  data.imaging.time = moment(data.imaging.time).format("YYYY-MM-DD HH:mm");
                   $('#imaging_data').html("<tr><td>" + data.imaging.ictags + "</td><td>" + data.imaging.serial + "</td><td>" + data.imaging.Manufacture + "</td><td>" + data.imaging.Model + "</td><td>" + data.imaging.CPU + "</td><td>" + data.imaging.RAM + "</td><td>" + data.imaging.HDD + "</td></tr>")
                   $('#add_imaging_data').html("<tr><td>" + data.imaging.time + "</td><td>" + data.imaging.wcoa + "</td><td>" + data.imaging.ocoa + "</td><td>" + data.imaging.video_card + "</td><td>" + data.imaging.bin_location + "</td><td>" + data.imaging.status + "</td></tr>");
 

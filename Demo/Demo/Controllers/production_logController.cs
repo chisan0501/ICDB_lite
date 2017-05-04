@@ -12,7 +12,7 @@ namespace Demo.Controllers
 {
     public class production_logController : Controller
     {
-        private db_a094d4_demoEntities db = new db_a094d4_demoEntities();
+        private db_a094d4_demoEntities1 db = new db_a094d4_demoEntities1();
 
         // GET: production_log
         public ActionResult Index()
@@ -89,6 +89,40 @@ namespace Demo.Controllers
             return View(production_log);
         }
 
+        public JsonResult get_production_log_data()
+        {
+
+
+            var result = (from t in db.production_log orderby t.time descending select t).ToList();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult search_record(string search_string, string search_cat)
+        {
+            var result = new List<production_log>();
+            switch (search_cat)
+            {
+
+                case "ictags":
+                    result = (from t in db.production_log where t.ictags.Contains(search_string) select t).ToList();
+                    break;
+                case "wcoa":
+                    result = (from t in db.production_log where t.wcoa.Contains(search_string) select t).ToList();
+                    break;
+                case "ocoa":
+                    result = (from t in db.production_log where t.ocoa.Contains(search_string) select t).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         // GET: production_log/Delete/5
         public ActionResult Delete(string id)
         {
@@ -102,6 +136,29 @@ namespace Demo.Controllers
                 return HttpNotFound();
             }
             return View(production_log);
+        }
+
+        public JsonResult delete_record(string ictag)
+        {
+            string message = "";
+            try
+            {
+                using (var remove = new db_a094d4_demoEntities1())
+                {
+                    remove.Database.ExecuteSqlCommand(
+                    "Delete from production_log where ictags = '" + ictag + "'");
+                }
+
+
+                message = ictag + " Has Been Deleted";
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+            }
+
+
+            return Json(message, JsonRequestBehavior.AllowGet);
         }
 
         // POST: production_log/Delete/5

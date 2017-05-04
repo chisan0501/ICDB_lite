@@ -658,7 +658,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="*" />
           <End Role="aspnetroles" Type="Self.aspnetroles" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="db_a094d4_demoEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="db_a094d4_demoEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="aspnetroles" EntityType="Self.aspnetroles" />
           <EntitySet Name="aspnetuserclaims" EntityType="Self.aspnetuserclaims" />
           <EntitySet Name="aspnetuserlogins" EntityType="Self.aspnetuserlogins" />
@@ -698,7 +698,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="db_a094d4_demoModelStoreContainer" CdmEntityContainer="db_a094d4_demoEntities">
+        <EntityContainerMapping StorageEntityContainer="db_a094d4_demoModelStoreContainer" CdmEntityContainer="db_a094d4_demoEntities1">
           <EntitySetMapping Name="aspnetroles">
             <EntityTypeMapping TypeName="db_a094d4_demoModel.aspnetroles">
               <MappingFragment StoreEntitySet="aspnetroles">

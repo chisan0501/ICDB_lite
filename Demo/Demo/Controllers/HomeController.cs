@@ -8,7 +8,7 @@ namespace Demo.Controllers
 {
     public class HomeController : Controller
     {
-        db_a094d4_demoEntities db = new db_a094d4_demoEntities();
+        db_a094d4_demoEntities1 db = new db_a094d4_demoEntities1();
         public ActionResult Index()
         {
             

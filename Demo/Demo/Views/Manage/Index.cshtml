@@ -1,87 +1,261 @@
-﻿@model Demo.Models.IndexViewModel
+﻿
 @{
     ViewBag.Title = "Manage";
 }
 
-<h2>@ViewBag.Title.</h2>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
-             See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*  
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
-        *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
-                    }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
-        </dd>
-    </dl>
+<div id="confrim_modal" class="modal">
+    <div class="modal-content">
+        <h4>Message</h4>
+        <p>Enter the # of the Asset Tag you would like to reset to</p>
+        <div class="input-field col s6">
+            <input id="asset" type="text" class="validate">
+            <label for="asset">Asset Tag</label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        <a href="#" id="confrim_reset_btn" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
 </div>
+
+<div class="row">
+    <div class="col s12">
+
+        <h3 class="header"><i class="small material-icons">settings</i>Settings</h3>
+
+    </div>
+        <div class="col s12">
+
+            <ul id="tabs-swipe-demo" class="tabs">
+                <li class="tab col s3"><a class="active" href="#tab1">Asset Tag</a></li>
+                <li class="tab col s3"><a href="#tab2">User</a></li>
+                
+                <li class="tab col s3"><a href="#tab4">COAs</a></li>
+            </ul>
+            <div id="tab1" class="col s12">
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Settings</th>
+                          
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        
+                        
+                        <tr>
+                            <td>Reset COAs Counter</td>
+                            <td id="counter" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Reset the asset tag to 10001"></td>
+                            <td></td>
+                            <td><a id="reset_btn" class="waves-effect waves-light btn">Reset</a></td>
+                        </tr>
+                        <tr>
+                            <td>Print Asset Tag</td>
+                            
+                            <td>
+                                <div class="input-field col s6">
+                                    <input id="number_asset_tag" type="text" class="validate" placeholder="# of Asset Tag">
+                                   
+                                </div>
+                            </td>
+                            
+                           
+                            <td>
+                                <ul class="collapsible" data-collapsible="accordion">
+                                    <li>
+                                        <div class="collapsible-header active"><i class="material-icons">arrow_drop_down</i>Expand</div>
+                                        <div class="collapsible-body"><div id="elem"><ul id="ull"></ul></div></div>
+                                    </li>
+                                    
+                                </ul>
+                            </td>
+                            <td><a id="print_btn" class="waves-effect waves-light btn">Print</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+            <div id="tab2" class="col s12 red">Test 2</div>
+          
+            <div id="tab4" class="col s12">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th></th>
+                            <th></th>
+                            
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+
+                        <tr>
+                            <td>Import COAs</td>
+                            <td><div class="col s5">
+                                
+                                    <select>
+                                        <option value="" disabled selected>Choose your option</option>
+                                        <option value="1">Option 1</option>
+                                        <option value="2">Option 2</option>
+                                        <option value="3">Option 3</option>
+                                    </select>
+                                    <label>Materialize Select</label>
+                                </div></td>
+                            
+                            <td class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Import COAs CSV">
+                                <div class="col s7">
+
+                                    <div class="file-field input-field">
+                                        <div class="btn">
+                                            <span>File</span>
+                                            <input type="file" multiple>
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                                        </div>
+                                    </div>
+
+                                </div>
+                           
+
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Print Asset Tag</td>
+
+                            <td>
+                              
+                            </td>
+  
+                            <td><a id="print_btn" class="waves-effect waves-light btn">Print</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+<script>
+    $('.modal').modal();
+    $('select').material_select();
+    update_counter();
+    function update_counter() {
+
+        $.getJSON("@Url.Action("get_counter_number")", function (data) {
+            var count = data;
+            $('#counter').text(count);
+            sessionStorage.setItem('count', count);
+    });
+
+    }
+    function reset_counter(data) {
+
+                $.getJSON("@Url.Action("reset_asset")", data, function (data) {
+
+            Materialize.toast(data, 3000);
+            update_counter();
+        });
+    }
+
+    $('#confrim_reset_btn').click(function () {
+        var asset = $('#asset').val();
+        var data = {
+
+            asset: asset,
+        };
+
+
+        reset_counter(data);
+
+    });
+
+
+    $('#print_btn').click(function () {
+        var number_asset_tag = Number($('#number_asset_tag').val());
+
+        var current_count = Number($('#counter').text());
+
+        var start = current_count;
+
+        var end = start + number_asset_tag;
+        for (i = start; i < end; i++) {
+            $('#ull').append('<li><img id=barcode' + [i] + '></img></li>');
+            gen([i], [i]);
+
+        }
+       
+        var data = {
+
+            asset: end,
+        };
+        reset_counter(data);
+
+
+        PrintElem(elem);
+      
+       
+        
+    });
+
+    $('#reset_btn').click(function () {
+
+        $('#confrim_modal').modal('open');
+
+    });
+
+    function PrintElem(elem) {
+        setTimeout(function () {
+
+            var mywindow = window.open('', 'PRINT', 'height=600,width=600');
+
+            mywindow.document.write('<html><head>');
+            mywindow.document.write('</head><style> @@page {size: 99px 57px;margin: 0;} ul{list-style-type: none;} .print:last-child {page-break-after: auto;}</style><body>');
+            mywindow.document.write($('#elem').html());
+            mywindow.document.write('</body></html>');
+
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10*/
+
+            mywindow.print();
+            mywindow.close();
+
+            $('#ull').html("");
+            return true;
+
+
+
+        }, 1000);
+       
+    }
+
+    function gen(barcode, id_num) {
+
+        JsBarcode("#barcode" + id_num, barcode, {
+            format: "CODE128",
+            fontSize: 15,
+            width: 1,
+            height: 30,
+            displayValue: true
+        });
+
+    }
+
+</script>

@@ -208,116 +208,121 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="aspnetroles.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="aspnetuserclaims.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="aspnetuserlogins.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="aspnetusers.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="asset_tag_counter.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="coas.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="coas_history.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\monitor_logController.cs" />
     <Compile Include="Controllers\palletsController.cs" />
     <Compile Include="Controllers\production_logController.cs" />
-    <Compile Include="DemoModel.Context.cs">
+    <Compile Include="Controllers\rediscoveriesController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Demo.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DemoModel.Context.tt</DependentUpon>
+      <DependentUpon>Demo.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DemoModel.cs">
+    <Compile Include="Demo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
-    <Compile Include="DemoModel.Designer.cs">
+    <Compile Include="Demo.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DemoModel.edmx</DependentUpon>
+      <DependentUpon>Demo.edmx</DependentUpon>
     </Compile>
     <Compile Include="discovery.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="label_log.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="label_menu.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="mac_log.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SQLModel.cs" />
     <Compile Include="monitor_log.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="monitor_setting.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="pallet.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="pallet_master.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="production_log.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="rediscovery.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="setting.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="setting_bol.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\discoveriesController.cs" />
     <Compile Include="station_setting.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="users.cs">
-      <DependentUpon>DemoModel.tt</DependentUpon>
+      <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dataTables.material.min.css" />
     <Content Include="Content\interconnection-org-logo-co.jpg" />
+    <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\jsgrid-theme.css" />
     <Content Include="Content\jsgrid.css" />
     <Content Include="Content\material.min.css" />
     <Content Include="Content\materialize.css" />
-    <Content Include="DemoModel.Context.tt">
+    <Content Include="Demo.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DemoModel.edmx</DependentUpon>
-      <LastGenOutput>DemoModel.Context.cs</LastGenOutput>
+      <DependentUpon>Demo.edmx</DependentUpon>
+      <LastGenOutput>Demo.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DemoModel.tt">
+    <Content Include="Demo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DemoModel.edmx</DependentUpon>
-      <LastGenOutput>DemoModel.cs</LastGenOutput>
+      <DependentUpon>Demo.edmx</DependentUpon>
+      <LastGenOutput>Demo.cs</LastGenOutput>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -328,28 +333,39 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="DemoModel.edmx">
+    <EntityDeploy Include="Demo.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DemoModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>Demo.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="DemoModel.edmx.diagram">
-      <DependentUpon>DemoModel.edmx</DependentUpon>
+    <Content Include="Demo.edmx.diagram">
+      <DependentUpon>Demo.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\dataTables.material.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\JsBarcode.all.min.js" />
     <Content Include="Scripts\jsgrid.js" />
     <Content Include="Scripts\material.js" />
     <Content Include="Scripts\material.min.js" />
     <Content Include="Scripts\materialize.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\pdfMake.js" />
+    <Content Include="Scripts\pdfmake.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\vfs_fonts.js" />
+    <Content Include="Scripts\virtual-fs.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -403,6 +419,17 @@
     <Content Include="Views\discoveries\Edit.cshtml" />
     <Content Include="Views\discoveries\Index.cshtml" />
     <Content Include="Views\Home\search_result.cshtml" />
+    <Content Include="Views\Report\home.cshtml" />
+    <Content Include="Views\rediscoveries\Create.cshtml" />
+    <Content Include="Views\rediscoveries\Delete.cshtml" />
+    <Content Include="Views\rediscoveries\Details.cshtml" />
+    <Content Include="Views\rediscoveries\Edit.cshtml" />
+    <Content Include="Views\rediscoveries\Index.cshtml" />
+    <Content Include="Views\monitor_log\Create.cshtml" />
+    <Content Include="Views\monitor_log\Delete.cshtml" />
+    <Content Include="Views\monitor_log\Details.cshtml" />
+    <Content Include="Views\monitor_log\Edit.cshtml" />
+    <Content Include="Views\monitor_log\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

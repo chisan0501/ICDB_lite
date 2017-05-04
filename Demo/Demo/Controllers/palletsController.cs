@@ -13,7 +13,7 @@ namespace Demo.Controllers
 {
     public class palletsController : Controller
     {
-        private db_a094d4_demoEntities db = new db_a094d4_demoEntities();
+        private db_a094d4_demoEntities1 db = new db_a094d4_demoEntities1();
 
         // GET: pallets
         public ActionResult Index()
@@ -145,7 +145,7 @@ namespace Demo.Controllers
             //remove any pallet name from para
             try
             {
-                using (var remove = new db_a094d4_demoEntities())
+                using (var remove = new db_a094d4_demoEntities1())
                 {
                     remove.Database.ExecuteSqlCommand(
                     "Delete from pallet where pallet_name = '" + pallet_name + "'");

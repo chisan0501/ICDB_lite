@@ -13,6 +13,8 @@ namespace Demo.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+
+        db_a094d4_demoEntities1 db = new db_a094d4_demoEntities1();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -297,6 +299,41 @@ namespace Demo.Controllers
                 CurrentLogins = userLogins,
                 OtherLogins = otherLogins
             });
+        }
+
+
+        public JsonResult reset_asset(string asset) {
+
+            string message = "";
+            try
+            {
+                using (var db = new db_a094d4_demoEntities1())
+                {
+                    db.Database.ExecuteSqlCommand(
+                    "Update asset_tag_counter set count = '" + asset + "'");
+                }
+
+
+                message = "Asset Tag Has Been Reset to " + asset;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+            }
+
+
+
+
+            return Json(message,JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult get_counter_number()
+        {
+
+            var result = (from t in db.asset_tag_counter select t.count).FirstOrDefault();
+
+
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
 
         //

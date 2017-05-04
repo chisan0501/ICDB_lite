@@ -2,16 +2,22 @@
 
 <head>
     <meta charset="utf-8" />
+   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <link href="~/Content/materialize.css" rel="stylesheet" />
     <script src="~/Scripts/materialize.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="~/Scripts/moment.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
     <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-    <link href="~/Content/jsgrid.css" rel="stylesheet" />
-    <link href="~/Content/jsgrid-theme.css" rel="stylesheet" />
-    <script src="~/Scripts/jsgrid.js"></script>
+    <script src="~/Scripts/pdfmake.min.js"></script>
+    <script src="~/Scripts/vfs_fonts.js"></script>
+    <script src="~/Scripts/JsBarcode.all.min.js"></script>
+   
 </head>
 <style type="text/css">
    #left_content{
@@ -63,16 +69,16 @@ height: 64px !important; /* or height of nav */
 
         <div id="left_content" class="col s3 blue-grey lighten-5">
             <!-- Grey navigation panel -->
-            <ul class="section table-of-contents">
-                <li><a href="@Url.Action("index", "home")" class="active">Home</a></li>
-                <li><a href="#popout" class="">Report</a></li>
+            <ul id="left_content_ul" class="section table-of-contents">
+                <li><a href="@Url.Action("index", "home")" class="">Home</a></li>
+                <li><a href="@Url.Action("home", "report")" class="">Report</a></li>
                 <li><a href="@Url.Action("index", "discoveries")" class="">Discovery</a></li>
-                <li><a href="#intialization" class="">Rediscovery</a></li>
+                <li><a href="@Url.Action("index", "rediscoveries")" class="">Rediscovery</a></li>
                 <li><a href="@Url.Action("index", "production_log")" class="">Imaging</a></li>
-                <li><a href="#methods" class="">Monitor Discovery</a></li>
+                <li><a href="@Url.Action("index", "monitor_log")" class="">Monitor Discovery</a></li>
                 <li><a href="@Url.Action("index", "pallets")">Pallets</a></li>
-                <li><a href="#accordion" class="">Settings</a></li>
-                
+                <li><a href="@Url.Action("index", "manage")" class="">Settings</a></li>
+
             </ul>
         </div>
 
@@ -95,6 +101,13 @@ height: 64px !important; /* or height of nav */
     
 </body>
 <script>
+    $('#left_content_ul > li').click(function () {
+
+        $(this).attr('class', 'active');
+
+    });
+   
+
     $("#search_form").submit(function (event) {
 
 

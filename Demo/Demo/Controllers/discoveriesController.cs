@@ -12,7 +12,7 @@ namespace Demo.Views
 {
     public class discoveriesController : Controller
     {
-        private db_a094d4_demoEntities db = new db_a094d4_demoEntities();
+        private db_a094d4_demoEntities1 db = new db_a094d4_demoEntities1();
 
         // GET: discoveries
         public ActionResult Index()
@@ -116,6 +116,72 @@ namespace Demo.Views
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public JsonResult search_record(string search_string,string search_cat,string is_raw)
+        {
+            var result = new List<discovery>();
+            switch (search_cat) {
+                case "brand":
+                    result = (from t in db.discovery where t.brand.Contains(search_string) select t).ToList();
+                    break;
+                case "model":
+                    result = (from t in db.discovery where t.model.Contains(search_string) select t).ToList();
+                    break;
+                case "hdd":
+                    result = (from t in db.discovery where t.hdd.Contains(search_string) select t).ToList();
+                    break;
+                case "ram":
+                    result = (from t in db.discovery where t.ram.Contains(search_string) select t).ToList();
+                    break;
+                case "cpu":
+                   result = (from t in db.discovery where t.cpu.Contains(search_string) select t).ToList();
+                    break;
+                default:
+                    break;
+            }
+            
+            if(is_raw == "true")
+            {
+                var result_ictag = (from t in result select t.ictag);
+                var rediscovery_inv = (from d in db.rediscovery select d.ictag).ToList();
+                var raw = result_ictag.Except(rediscovery_inv).ToList();
+                result = (from d in db.discovery where raw.Contains(d.ictag) select d).ToList();
+            }
+
+            return Json(result,JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult delete_record(string ictag)
+        {
+            string message = "";
+            try
+            {
+                using (var remove = new db_a094d4_demoEntities1())
+                {
+                    remove.Database.ExecuteSqlCommand(
+                    "Delete from discovery where ictag = '" + ictag + "'");
+                }
+
+
+                message = ictag + " Has Been Deleted";
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+            }
+
+
+            return Json(message,JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult get_discovery_data ()
+        {
+
+
+            var result = (from t in db.discovery orderby t.time descending select t).ToList();
+
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
     }
 }
