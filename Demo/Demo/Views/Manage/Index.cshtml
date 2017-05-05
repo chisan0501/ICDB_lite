@@ -28,7 +28,8 @@
         <div class="col s12">
 
             <ul id="tabs-swipe-demo" class="tabs">
-                <li class="tab col s3"><a class="active" href="#tab1">Asset Tag</a></li>
+                <li class="tab col s3"><a class="active" href="#tab3">General</a></li>
+                <li class="tab col s3"><a  href="#tab1">Asset Tag</a></li>
                 <li class="tab col s3"><a href="#tab2">User</a></li>
                 
                 <li class="tab col s3"><a href="#tab4">COAs</a></li>
@@ -84,7 +85,7 @@
 
             </div>
             <div id="tab2" class="col s12 red">Test 2</div>
-          
+            <div id="tab3" class="col s12 red">General Settings</div>
             <div id="tab4" class="col s12">
 
                 <table>
@@ -105,11 +106,8 @@
                             <td>Import COAs</td>
                             <td><div class="col s5">
                                 
-                                    <select>
-                                        <option value="" disabled selected>Choose your option</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                    <select id="coas_stations">
+                                        <option value="" disabled selected>Select Station</option>
                                     </select>
                                     <label>Materialize Select</label>
                                 </div></td>
@@ -120,7 +118,7 @@
                                     <div class="file-field input-field">
                                         <div class="btn">
                                             <span>File</span>
-                                            <input type="file" multiple>
+                                            <input type="file" accept=".csv">
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text" placeholder="Upload one or more files">
@@ -132,6 +130,8 @@
 
 
                             </td>
+                            <td><a id="upload_btn" class="waves-effect waves-light btn">Upload</a></td>
+
                         </tr>
                         <tr>
                             <td>Print Asset Tag</td>
@@ -155,8 +155,24 @@
 
 <script>
     $('.modal').modal();
-    $('select').material_select();
+    
     update_counter();
+    get_coas_station();
+
+    function get_coas_station() {
+        $.getJSON("@Url.Action("get_coas_station")", function (data) {
+
+            for (var i = 0; i < data.length; i++) {
+                $('#coas_stations').append($("<option></option>").attr("value", data[i]).text(data[i]));
+
+            }
+            $('select').material_select();
+
+        });
+       
+
+    }
+
     function update_counter() {
 
         $.getJSON("@Url.Action("get_counter_number")", function (data) {
@@ -174,6 +190,11 @@
             update_counter();
         });
     }
+
+    $('#upload_btn').click(function () {
+
+
+    });
 
     $('#confrim_reset_btn').click(function () {
         var asset = $('#asset').val();
@@ -201,7 +222,7 @@
             gen([i], [i]);
 
         }
-       
+
         var data = {
 
             asset: end,
@@ -210,9 +231,9 @@
 
 
         PrintElem(elem);
-      
-       
-        
+
+
+
     });
 
     $('#reset_btn').click(function () {
@@ -243,7 +264,7 @@
 
 
         }, 1000);
-       
+
     }
 
     function gen(barcode, id_num) {

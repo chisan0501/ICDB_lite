@@ -301,6 +301,12 @@ namespace Demo.Controllers
             });
         }
 
+        public JsonResult get_coas_station() {
+
+            var result = (from t in db.station_setting select t.station_dropdown_value).ToList();
+
+            return Json(result,JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult reset_asset(string asset) {
 
