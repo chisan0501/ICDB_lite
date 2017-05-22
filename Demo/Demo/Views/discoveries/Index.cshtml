@@ -6,12 +6,47 @@
 
 <div id="edit_modal" class="modal">
     <div class="modal-content">
-        <h4>Edit</h4>
+        <h4 id="edit_title"></h4>
         
+                        <div class="input-field ">
+                            <input placeholder="Asset" id="asset_value" type="text" class="validate">
+                            <label for="asset_value">Asset Tag</label>
+                        </div>
+        <div class="input-field ">
+            <input placeholder="Time" id="time" type="text">
+            <label for="time">Time</label>
+        </div>
+        <div class="input-field ">
+            <input placeholder="Serial" id="serial" type="text">
+            <label for="serial">Serial</label>
+        </div>
+        <div class="input-field ">
+            <input placeholder="Manufacture" id="make" type="text">
+            <label for="make">Manufacture</label>
+        </div>
+        <div class="input-field ">
+            <input placeholder="Model" id="model" type="text">
+            <label for="model">Model</label>
+        </div>
+        <div class="input-field ">
+            <input placeholder="CPU" id="cpu" type="text">
+            <label for="cpu">CPU</label>
+        </div>
+        <div class="input-field ">
+            <input placeholder="RAM" id="ram" type="text">
+            <label for="ram">RAM</label>
+        </div>
+        <div class="input-field ">
+            <input placeholder="HDD" id="hdd" type="text">
+            <label for="hdd">HDD</label>
+        </div>
+
+
+               
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
-        <a id="edit_confirm_btn" href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Okay</a>
+        <a id="edit_confirm_btn" href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Edit</a>
     </div>
 </div>
 
@@ -29,8 +64,8 @@
 <div id="modal1" class="modal">
     <div class="modal-content">
         <h4 id="modal_title"></h4>
-        <a id="edit_asset" class="waves-effect waves-light btn">Edit</a>
-        <a id="delete_asset" class="waves-effect waves-light btn">Delete</a>
+        <a id="edit_asset" href="#edit_modal" class="waves-effect waves-light btn">Edit</a>
+        <a id="delete_asset" href="#confrim_modal" class="waves-effect waves-light btn">Delete</a>
         
     </div>
     <div class="modal-footer">
@@ -98,7 +133,7 @@
 <script>
     $('select').material_select();
 
-   
+
 
     function get_table(table_name,data) {
 
@@ -141,13 +176,36 @@
         var data = {};
         get_table("get_discovery_data",data);
 
+        $('#edit_confirm_btn').click(function () {
+            var data = {
+               asset: $('#asset_value').val(),time: $('#time').val(), serial: $('#serial').val(), make: $('#make').val(), model: $('#model').val(), cpu: $('#cpu').val(), ram: $('#ram').val(), hdd : $('#hdd').val()
+            };
+            $.getJSON("@Url.Action("edit_form")", data, function (data) {
+                Materialize.toast(data.message, 3000);
+            });
 
+        });
 
         $("#table4").on("click", "a", function () {
             //get the asset tag from child #1 of the row
             var asset = $(this).closest('td').siblings(':nth-child(1)').text();
+            var time = $(this).closest('td').siblings(':nth-child(2)').text();
+            var serial = $(this).closest('td').siblings(':nth-child(3)').text();
+            var make = $(this).closest('td').siblings(':nth-child(4)').text();
+            var model = $(this).closest('td').siblings(':nth-child(5)').text();
+            var cpu = $(this).closest('td').siblings(':nth-child(6)').text();
+            var ram = $(this).closest('td').siblings(':nth-child(7)').text();
+            var hdd = $(this).closest('td').siblings(':nth-child(8)').text();
             //set session storage with key name asset
             sessionStorage.setItem('asset', asset);
+            sessionStorage.setItem('time', time);
+            sessionStorage.setItem('serial', serial);
+            sessionStorage.setItem('make', make);
+            sessionStorage.setItem('model', model);
+            sessionStorage.setItem('cpu', cpu);
+            sessionStorage.setItem('ram', ram);
+            sessionStorage.setItem('hdd', hdd);
+
             //call the function that set all the content for the asset
             set_modal_content(asset);
         });
@@ -170,13 +228,8 @@
 
     });
 
-    $('#delete_asset').click(function () {
-        $('#confrim_modal').modal('open');
-    });
 
-    $('#edit_asset').click(function () {
 
-    });
 
     $('#delete_confirm_btn').click(function () {
         var data = {
@@ -195,8 +248,19 @@
 
     function set_modal_content(asset_tag) {
         //function that set all the content with the asset selected
+        var asset = sessionStorage.getItem('asset');
         $('#modal_title').text("Manage " + asset_tag);
         $('#delete_message').text("Are you sure you want to delete the record for " + asset_tag + " ?");
+        //edit content
+        $('#edit_title').text("Edit " + asset);
+        $('#asset_value').val(sessionStorage.getItem('asset'));
+        $('#time').val(sessionStorage.getItem('time'));
+        $('#serial').val(sessionStorage.getItem('serial'));
+        $('#make').val(sessionStorage.getItem('make'));
+        $('#model').val(sessionStorage.getItem('model'));
+        $('#cpu').val(sessionStorage.getItem('cpu'));
+        $('#ram').val(sessionStorage.getItem('ram'));
+        $('#hdd').val(sessionStorage.getItem('hdd'));
     }
 </script>
 

@@ -58,6 +58,55 @@ namespace Demo.Views
             return View(discovery);
         }
 
+        
+
+        public JsonResult edit_form(string asset ,string time, string serial, string make,string cpu,string ram, string hdd,string model) {
+            List<string> message = new List<string>();
+            using (var db = new db_a094d4_demoEntities1()) {
+
+                try
+                {
+
+                    var discovery = new discovery();
+                    discovery.serial = serial;
+                    discovery.brand = make;
+                    discovery.cpu = cpu;
+                    discovery.ram = ram;
+                    discovery.hdd = hdd;
+                    discovery.model = model;
+                    discovery.ictag = int.Parse(asset);
+                    db.discovery.Attach(discovery);
+                    var entry = db.Entry(discovery);
+                    entry.Property(e => e.serial).IsModified = true;
+                    entry.Property(e => e.brand).IsModified = true;
+                    entry.Property(e => e.cpu).IsModified = true;
+                    entry.Property(e => e.ram).IsModified = true;
+                    entry.Property(e => e.hdd).IsModified = true;
+                    entry.Property(e => e.model).IsModified = true;
+                    
+                    // other changed properties
+                    db.SaveChanges();
+
+                    
+                    message.Add("Info Has Updated for Asset ");
+                }
+                catch (Exception e) {
+
+                    message.Add(e.InnerException.InnerException.Message);
+
+                }
+
+               
+
+
+
+            }
+
+
+
+            return Json(new { message = message},JsonRequestBehavior.AllowGet);
+        }
+
         // GET: discoveries/Edit/5
         public ActionResult Edit(int? id)
         {

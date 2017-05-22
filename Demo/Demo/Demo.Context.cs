@@ -46,5 +46,6 @@ namespace Demo
         public virtual DbSet<setting_bol> setting_bol { get; set; }
         public virtual DbSet<station_setting> station_setting { get; set; }
         public virtual DbSet<users> users { get; set; }
+        public virtual DbSet<scripts> scripts { get; set; }
     }
 }

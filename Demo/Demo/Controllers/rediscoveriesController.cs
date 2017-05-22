@@ -82,6 +82,53 @@ namespace Demo.Controllers
             return View(rediscovery);
         }
 
+        public JsonResult edit_form(int asset, string serial, string model, string refurbisher, string sku)
+        {
+            List<string> message = new List<string>();
+            using (var db = new db_a094d4_demoEntities1())
+            {
+
+                try
+                {
+
+                    var redis = new rediscovery();
+                    redis.ictag = asset;
+                    redis.pallet = sku;
+                    redis.serial = serial;
+                    redis.model = model;
+                    redis.refurbisher = refurbisher;
+                    db.rediscovery.Attach(redis);
+                    var entry = db.Entry(redis);
+                    entry.Property(e => e.pallet).IsModified = true;
+                    entry.Property(e => e.model).IsModified = true;
+                    entry.Property(e => e.serial).IsModified = true;
+                    entry.Property(e => e.refurbisher).IsModified = true;
+
+                    // other changed properties
+                    db.SaveChanges();
+
+
+                    message.Add("Info Has Updated for Asset ");
+                }
+                catch (Exception e)
+                {
+
+                    message.Add(e.InnerException.InnerException.Message);
+
+                }
+
+
+
+
+
+            }
+
+
+
+            return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        }
+
+
         // POST: rediscoveries/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

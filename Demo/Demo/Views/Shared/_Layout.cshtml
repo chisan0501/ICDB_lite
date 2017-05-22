@@ -4,20 +4,23 @@
     <meta charset="utf-8" />
    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="~/Scripts/moment.js"></script>
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="~/Scripts/daterangepicker.js"></script>
     <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <link href="~/Content/materialize.css" rel="stylesheet" />
     <script src="~/Scripts/materialize.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="~/Scripts/moment.js"></script>
+  
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
     <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
     <script src="~/Scripts/pdfmake.min.js"></script>
     <script src="~/Scripts/vfs_fonts.js"></script>
     <script src="~/Scripts/JsBarcode.all.min.js"></script>
-   
+    <script src="~/Scripts/papaparse.min.js"></script>
+    <link href="~/Content/dataTables.material.min.css" rel="stylesheet" />
 </head>
 <style type="text/css">
    #left_content{
@@ -52,7 +55,7 @@ height: 64px !important; /* or height of nav */
                             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                             {
                             @Html.AntiForgeryToken()
-                        <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout" href="javascript:document.getElementById('logoutForm').submit()"><i class="material-icons">directions_run</i></a>
+                        <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout" href="javascript:document.getElementById('logoutForm').submit()"><i class="material-icons">exit_to_app</i></a>
                             }
                         
                         </li>
@@ -70,14 +73,14 @@ height: 64px !important; /* or height of nav */
         <div id="left_content" class="col s3 blue-grey lighten-5">
             <!-- Grey navigation panel -->
             <ul id="left_content_ul" class="section table-of-contents">
-                <li><a href="@Url.Action("index", "home")" class="">Home</a></li>
-                <li><a href="@Url.Action("home", "report")" class="">Report</a></li>
-                <li><a href="@Url.Action("index", "discoveries")" class="">Discovery</a></li>
-                <li><a href="@Url.Action("index", "rediscoveries")" class="">Rediscovery</a></li>
-                <li><a href="@Url.Action("index", "production_log")" class="">Imaging</a></li>
-                <li><a href="@Url.Action("index", "monitor_log")" class="">Monitor Discovery</a></li>
-                <li><a href="@Url.Action("index", "pallets")">Pallets</a></li>
-                <li><a href="@Url.Action("index", "manage")" class="">Settings</a></li>
+                <li><a href="@Url.Action("index", "home")" class=""><i class="material-icons">home</i>  Home</a></li>
+                <li><a href="@Url.Action("home", "report")" class=""><i class="material-icons">content_paste</i>    Report</a></li>
+                <li><a href="@Url.Action("index", "discoveries")" class=""><i class="material-icons">reply</i>  Discovery</a></li>
+                <li><a href="@Url.Action("index", "rediscoveries")" class=""><i class="material-icons">reply_all</i>    Rediscovery</a></li>
+                <li><a href="@Url.Action("index", "production_log")" class=""><i class="material-icons">screen_share</i>    Imaging</a></li>
+                <li><a href="@Url.Action("index", "monitor_log")" class=""><i class="material-icons">airplay</i>    Monitor Discovery</a></li>
+                <li><a href="@Url.Action("index", "pallets")"><i class="material-icons">view_day</i>    Pallets</a></li>
+                <li><a href="@Url.Action("index", "manage")" class=""><i class="material-icons">settings</i>    Settings</a></li>
 
             </ul>
         </div>

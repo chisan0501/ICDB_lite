@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="db_a094d4_demoModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="db_a094d4_demoModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="aspnetroles">
           <Key>
             <PropertyRef Name="Id" />
@@ -236,6 +236,14 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <Property Name="orderNum" Type="char" MaxLength="100" />
           <Property Name="has_SSD" Type="char" MaxLength="50" />
         </EntityType>
+        <EntityType Name="scripts">
+          <Key>
+            <PropertyRef Name="row_id" />
+          </Key>
+          <Property Name="row_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="content" Type="text" />
+          <Property Name="name" Type="char" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="setting">
           <Key>
             <PropertyRef Name="channel_name" />
@@ -344,6 +352,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
           <EntitySet Name="pallet_master" EntityType="Self.pallet_master" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="production_log" EntityType="Self.production_log" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="rediscovery" EntityType="Self.rediscovery" Schema="db_a094d4_demo" store:Type="Tables" />
+          <EntitySet Name="scripts" EntityType="Self.scripts" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="setting" EntityType="Self.setting" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="setting_bol" EntityType="Self.setting_bol" Schema="db_a094d4_demo" store:Type="Tables" />
           <EntitySet Name="station_setting" EntityType="Self.station_setting" Schema="db_a094d4_demo" store:Type="Tables" />
@@ -365,8 +374,7 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
             <End Role="aspnetuserroles" EntitySet="aspnetuserroles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_a094d4_demoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -692,7 +700,16 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
             <End Role="aspnetusers" EntitySet="aspnetusers" />
             <End Role="aspnetroles" EntitySet="aspnetroles" />
           </AssociationSet>
+          <EntitySet Name="scripts" EntityType="db_a094d4_demoModel.scripts" />
         </EntityContainer>
+        <EntityType Name="scripts">
+          <Key>
+            <PropertyRef Name="row_id" />
+          </Key>
+          <Property Name="row_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -976,6 +993,15 @@ warning 6013: The table/view 'def.db_a094d4_demo.misc_setting' does not have a p
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="scripts">
+            <EntityTypeMapping TypeName="db_a094d4_demoModel.scripts">
+              <MappingFragment StoreEntitySet="scripts">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="row_id" ColumnName="row_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

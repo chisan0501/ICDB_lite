@@ -4,14 +4,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="tap-target" data-activates="menu">
+    <div class="tap-target-content">
+        <h5>Imaging Data</h5>
+        <p>This Page display the latest 100 records of imaging data,global search is also avaiable below the title. To do a in table search use the Search input above "Action" column</p>
+    </div>
+</div>
+
 <div id="edit_modal" class="modal">
     <div class="modal-content">
-        <h4>Edit</h4>
+        <h4 id="edit_title"></h4>
+
+        <div class="input-field ">
+            <input placeholder="Asset" id="asset_value" type="text" class="validate">
+            <label for="asset_value">Asset Tag</label>
+        </div>
+        <div class="input-field ">
+            <input placeholder="Windows COA" id="wcoa" type="text">
+            <label for="time">Windows COA</label>
+        </div>
+        <div class="input-field ">
+            <input placeholder="Office COA" id="ocoa" type="text">
+            <label for="serial">Office COA</label>
+        </div>
+        
+
+
 
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
-        <a id="edit_confirm_btn" href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Okay</a>
+        <a id="edit_confirm_btn" href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Edit</a>
     </div>
 </div>
 
@@ -29,7 +52,7 @@
 <div id="modal1" class="modal">
     <div class="modal-content">
         <h4 id="modal_title"></h4>
-        <a id="edit_asset" class="waves-effect waves-light btn">Edit</a>
+        <a id="edit_asset" href="#edit_modal" class="waves-effect waves-light btn">Edit</a>
         <a id="delete_asset" class="waves-effect waves-light btn">Delete</a>
 
     </div>
@@ -39,10 +62,13 @@
 
     </div>
 </div>
-
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a id="menu" class="btn btn-floating btn-large cyan"><i class="material-icons">touch_app</i></a>
+</div>
 <div class="row">
     <div class="col s12">
         <h3 class="header">Imaging</h3>
+       
     </div>
     <div class="col s12">
         <div class="input-field col s3">
@@ -87,6 +113,11 @@
 <script>
     $('select').material_select();
 
+    $('#menu').click(function () {
+        $('.tap-target').tapTarget('open');
+
+    });
+    
 
 
     function get_table(table_name,data) {
@@ -111,7 +142,7 @@
                     { data: "ictags" },
                     { data: "wcoa" },
                     { data: "ocoa" },
-                  
+
 
 
                 ]
@@ -128,13 +159,28 @@
         var data = {};
         get_table("get_production_log_data",data);
 
+          $('#edit_confirm_btn').click(function () {
+            var data = {
+               asset: $('#asset_value').val(),wcoa: $('#wcoa').val(), ocoa: $('#ocoa').val()
+            };
+            $.getJSON("@Url.Action("edit_form")", data, function (data) {
+                Materialize.toast(data.message, 3000);
+            });
 
+        });
 
         $("#table4").on("click", "a", function () {
             //get the asset tag from child #1 of the row
             var asset = $(this).closest('td').siblings(':nth-child(1)').text();
+            var wcoa= $(this).closest('td').siblings(':nth-child(2)').text();
+            var ocoa = $(this).closest('td').siblings(':nth-child(3)').text();
+
             //set session storage with key name asset
             sessionStorage.setItem('asset', asset);
+            sessionStorage.setItem('wcoa', wcoa);
+            sessionStorage.setItem('ocoa', ocoa);
+
+
             //call the function that set all the content for the asset
             set_modal_content(asset);
         });
@@ -180,8 +226,14 @@
 
     function set_modal_content(asset_tag) {
         //function that set all the content with the asset selected
+        var asset = sessionStorage.getItem('asset');
         $('#modal_title').text("Manage " + asset_tag);
         $('#delete_message').text("Are you sure you want to delete the record for " + asset_tag + " ?");
+        //edit content
+        $('#edit_title').text("Edit " + asset);
+        $('#asset_value').val(sessionStorage.getItem('asset'));
+        $('#wcoa').val(sessionStorage.getItem('wcoa'));
+        $('#ocoa').val(sessionStorage.getItem('ocoa'));
     }
 </script>
 

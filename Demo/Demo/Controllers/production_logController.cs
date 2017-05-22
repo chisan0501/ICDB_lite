@@ -58,6 +58,8 @@ namespace Demo.Controllers
             return View(production_log);
         }
 
+
+
         // GET: production_log/Edit/5
         public ActionResult Edit(string id)
         {
@@ -71,6 +73,50 @@ namespace Demo.Controllers
                 return HttpNotFound();
             }
             return View(production_log);
+        }
+
+        public JsonResult edit_form(string asset, string wcoa, string ocoa)
+        {
+            List<string> message = new List<string>();
+            using (var db = new db_a094d4_demoEntities1())
+            {
+
+                try
+                {
+
+                    var production = new production_log();
+                    production.wcoa = wcoa;
+                    production.ocoa = ocoa;
+                    production.ictags = asset;
+                    db.production_log.Attach(production);
+                    var entry = db.Entry(production);
+                    entry.Property(e => e.ictags).IsModified = true;
+                    
+                    entry.Property(e => e.ocoa).IsModified = true;
+
+
+                    // other changed properties
+                    db.SaveChanges();
+
+                    
+                    message.Add("Info Has Updated for Asset ");
+                }
+                catch (Exception e)
+                {
+
+                    message.Add(e.InnerException.InnerException.Message);
+
+                }
+
+
+
+
+
+            }
+
+
+
+            return Json(new { message = message }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: production_log/Edit/5
@@ -92,8 +138,9 @@ namespace Demo.Controllers
         public JsonResult get_production_log_data()
         {
 
+            
 
-            var result = (from t in db.production_log orderby t.time descending select t).ToList();
+            var result = (from t in db.production_log orderby t.time descending select t).Take(100).ToList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

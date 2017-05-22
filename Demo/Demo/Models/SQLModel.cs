@@ -11,7 +11,7 @@ namespace Demo.Models
         public class ProductionLevelByHour
         {
             public string hours { get; set; }
-            public string num { get; set; }
+            public int num { get; set; }
 
         }
 

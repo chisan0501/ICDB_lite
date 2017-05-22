@@ -137,7 +137,72 @@ namespace Demo.Controllers
             return Json(new { valid = valid, duplicate = duplicate ,message = message}, JsonRequestBehavior.AllowGet);
         }
 
-     
+        public JsonResult get_pallet_data(string pallet) {
+
+            var result = (from p in db.pallet where p.pallet_name == pallet select p.ictags).ToList();
+
+            return Json(new { pallet= result},JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult edit_pallet(List<int> pallet,string pallet_name)
+        {
+            List<string> message = new List<string>();
+            var server_pallet = (from p in db.pallet where p.pallet_name == pallet_name select p.ictags).ToList();
+            var difference = pallet.Except(server_pallet).ToList();
+            var delete = server_pallet.Except(pallet).ToList();
+
+            foreach (var item in delete) {
+                try
+                {
+                    using (var remove = new db_a094d4_demoEntities1())
+                    {
+                        remove.Database.ExecuteSqlCommand(
+                        "Delete from pallet where ictags = '" + item + "'");
+                    }
+
+
+                    message.Add( item+ " Has Been Deleted from Pallet : " + pallet_name);
+                }
+                catch (Exception e)
+                {
+                    message.Add(e.InnerException.InnerException.Message);
+                    continue;
+                }
+            }
+           
+            foreach (var item in difference) {
+
+                if (item != 0) {
+                    try
+                    {
+                        var entry = new pallet();
+
+                        entry.ictags = item;
+                        entry.pallet_name = pallet_name;
+
+                        db.pallet.Add(entry);
+
+                        message.Add(item.ToString() + "Successfully Added to Pallet: " + pallet_name);
+                        db.SaveChanges();
+                    }
+                    catch(Exception e)
+                    {
+                        message.Add(e.InnerException.InnerException.Message);
+                        continue;
+                    }
+                }
+
+
+
+
+                message.Add("Task Complete");
+
+            
+            }
+
+            return Json( new { message=message},JsonRequestBehavior.AllowGet);
+
+        }
 
         public JsonResult remove_pallet(string pallet_name)
         {

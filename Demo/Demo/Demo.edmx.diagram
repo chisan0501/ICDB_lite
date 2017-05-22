@@ -29,6 +29,7 @@
         <AssociationConnector Association="db_a094d4_demoModel.ApplicationUser_Claims" ManuallyRouted="false" />
         <AssociationConnector Association="db_a094d4_demoModel.ApplicationUser_Logins" ManuallyRouted="false" />
         <AssociationConnector Association="db_a094d4_demoModel.aspnetuserroles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="db_a094d4_demoModel.scripts" Width="1.5" PointX="0.75" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

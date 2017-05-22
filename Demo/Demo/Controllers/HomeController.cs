@@ -16,11 +16,16 @@ namespace Demo.Controllers
             return View();
         }
 
-        public JsonResult get_data ()
+        public JsonResult get_data (DateTime from, DateTime to)
         {
 
-            var date_from = DateTime.Today;
-            var date_to = DateTime.Today.AddDays(1);
+            DateTime date_from;
+            DateTime date_to;
+            
+                date_from = from;
+                date_to = to;
+
+            
 
             var imaging_data = (from d in db.production_log where d.time >= date_from && d.time <= date_to select d).Count();
             var discovery_data = (from d in db.discovery where d.time >= date_from && d.time < date_to select d).Count();
@@ -39,9 +44,11 @@ namespace Demo.Controllers
             var g360_wcoa_s2 = (from m in db.coas where (m.Recipient_Organization_Name == "Good360" && m.location == "wcoa_s2") select m).Count();
             var g360_ocoa_s2 = (from m in db.coas where (m.Recipient_Organization_Name == "Good360" && m.location == "ocoa_s2") select m).Count();
 
-            
-            var today_production_level = db.Database.SqlQuery<Models.SQLModel.ProductionLevelByHour>("SELECT hour(time) as hours, count(time) as num FROM production_log where time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY GROUP BY hour(time) , day(time)").ToList<Models.SQLModel.ProductionLevelByHour>();
+            var hourly_from =  date_from.ToString("yyyy-MM-dd");
+            var hourly_to = date_to.ToString("yyyy-MM-dd");
+            var today_production_level = db.Database.SqlQuery<Models.SQLModel.ProductionLevelByHour>("SELECT hour(time) as hours, count(time) as num FROM production_log where time >= '"+hourly_from+"' AND time < '"+hourly_to+"' + INTERVAL 1 DAY GROUP BY hour(time)").ToList<Models.SQLModel.ProductionLevelByHour>();
 
+          
             var pass7_production_level = db.Database.SqlQuery<Models.SQLModel.LevelByWeek>("SELECT DATE_FORMAT(time, '%Y-%m-%d') as date, count(time) as num FROM production_log where time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND time <= DATE_ADD(CURDATE(), INTERVAL 2 DAY) GROUP BY day(time)").ToList<Models.SQLModel.LevelByWeek>();
             var pass7_discovery_level = db.Database.SqlQuery<Models.SQLModel.LevelByWeek>("SELECT DATE_FORMAT(time, '%Y-%m-%d') as date, count(time) as num FROM discovery where time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND time <= DATE_ADD(CURDATE(), INTERVAL 2 DAY) GROUP BY day(time)").ToList<Models.SQLModel.LevelByWeek>();
             var pass7_rediscovery_level = db.Database.SqlQuery<Models.SQLModel.LevelByWeek>("SELECT DATE_FORMAT(time, '%Y-%m-%d') as date, count(time) as num FROM rediscovery where time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND time <= DATE_ADD(CURDATE(), INTERVAL 2 DAY) GROUP BY day(time)").ToList<Models.SQLModel.LevelByWeek>();

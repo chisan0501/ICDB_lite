@@ -254,6 +254,7 @@
     <Compile Include="discovery.cs">
       <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
+    <Compile Include="gen_config.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -267,6 +268,7 @@
       <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\COAs_model.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SQLModel.cs" />
@@ -289,6 +291,9 @@
     <Compile Include="rediscovery.cs">
       <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
+    <Compile Include="scripts.cs">
+      <DependentUpon>Demo.tt</DependentUpon>
+    </Compile>
     <Compile Include="setting.cs">
       <DependentUpon>Demo.tt</DependentUpon>
     </Compile>
@@ -308,6 +313,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dataTables.material.min.css" />
+    <Content Include="Content\daterangepicker.css" />
+    <Content Include="Content\daterangepicker.min.css" />
     <Content Include="Content\interconnection-org-logo-co.jpg" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\jsgrid-theme.css" />
@@ -328,6 +335,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\autosize.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -344,11 +352,13 @@
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dataTables.material.min.js" />
+    <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.daterangepicker.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -360,6 +370,7 @@
     <Content Include="Scripts\materialize.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\papaparse.min.js" />
     <Content Include="Scripts\pdfMake.js" />
     <Content Include="Scripts\pdfmake.min.js" />
     <Content Include="Scripts\respond.js" />
@@ -420,10 +431,6 @@
     <Content Include="Views\discoveries\Index.cshtml" />
     <Content Include="Views\Home\search_result.cshtml" />
     <Content Include="Views\Report\home.cshtml" />
-    <Content Include="Views\rediscoveries\Create.cshtml" />
-    <Content Include="Views\rediscoveries\Delete.cshtml" />
-    <Content Include="Views\rediscoveries\Details.cshtml" />
-    <Content Include="Views\rediscoveries\Edit.cshtml" />
     <Content Include="Views\rediscoveries\Index.cshtml" />
     <Content Include="Views\monitor_log\Create.cshtml" />
     <Content Include="Views\monitor_log\Delete.cshtml" />
