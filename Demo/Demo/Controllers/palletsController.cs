@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Demo;
 using System.Transactions;
+using System.Net.Http;
 
 namespace Demo.Controllers
 {
@@ -21,90 +22,76 @@ namespace Demo.Controllers
             return View(db.pallet.ToList());
         }
 
-        // GET: pallets/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            pallet pallet = db.pallet.Find(id);
-            if (pallet == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pallet);
-        }
-
-        // GET: pallets/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: pallets/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ictags,pallet_name,type,note")] pallet pallet)
-        {
-            if (ModelState.IsValid)
+       
+        public JsonResult create(string pallet_name,string assets,string note ) {
+
+            List<string> message = new List<string>();
+
+            var current_pallet = (from d in db.pallet where d.pallet_name == pallet_name select d).ToList();
+
+            if (current_pallet.Count > 0)
             {
-                db.pallet.Add(pallet);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                message.Add("Pallet Name Exisited");
+            }
+            else {
+                List<string> list = new List<string>(
+                            assets.Split(new string[] { "\r\n" },
+                            StringSplitOptions.RemoveEmptyEntries));
+                foreach (var asset in list) {
+                    try
+                    {
+
+                        using (var add = new db_a094d4_demoEntities1())
+                        {
+                            add.Database.ExecuteSqlCommand(
+                            "INSERT INTO pallet (ictags, pallet_name,note) VALUES('" + asset + "','" + pallet_name + "','"+note+"') ON DUPLICATE KEY UPDATE ictags = '" + asset + "', pallet_name = '" + pallet_name + "', note = '"+note+"'");
+                            message.Add(asset + " has been added to " + pallet_name);
+                        }
+                        
+                    }
+                    catch (Exception e)
+                    {
+
+                        message.Add(e.InnerException.InnerException.Message);
+
+                    }
+
+
+                }
             }
 
-            return View(pallet);
+
+
+            return Json(message,JsonRequestBehavior.AllowGet);
         }
 
-        // GET: pallets/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            pallet pallet = db.pallet.Find(id);
-            if (pallet == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pallet);
-        }
+        
+        
 
-        // POST: pallets/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ictags,pallet_name,type,note")] pallet pallet)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(pallet).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(pallet);
-        }
+        public JsonResult add_asset(string pallet_name, string asset) {
+            var message = "";
 
-        // GET: pallets/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            pallet pallet = db.pallet.Find(id);
-            if (pallet == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pallet);
-        }
 
+                using (var add = new db_a094d4_demoEntities1())
+                {
+                    add.Database.ExecuteSqlCommand(
+                    "INSERT INTO pallet (ictags, pallet_name) VALUES('" + asset + "','" + pallet_name + "') ON DUPLICATE KEY UPDATE ictags = '" + asset + "', pallet_name = '" + pallet_name + "'");
+                }
+                message = asset + " has been added to " + pallet_name;
+            }
+            catch (Exception e) {
+
+                message = e.Message;
+
+            }
+
+
+            return Json(message,JsonRequestBehavior.AllowGet);
+        }
+      
         public JsonResult validate(int[] input, string pallet_name)
         {
          
@@ -144,64 +131,51 @@ namespace Demo.Controllers
             return Json(new { pallet= result},JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult edit_pallet(List<int> pallet,string pallet_name)
-        {
-            List<string> message = new List<string>();
-            var server_pallet = (from p in db.pallet where p.pallet_name == pallet_name select p.ictags).ToList();
-            var difference = pallet.Except(server_pallet).ToList();
-            var delete = server_pallet.Except(pallet).ToList();
+        
 
-            foreach (var item in delete) {
-                try
-                {
-                    using (var remove = new db_a094d4_demoEntities1())
-                    {
-                        remove.Database.ExecuteSqlCommand(
-                        "Delete from pallet where ictags = '" + item + "'");
-                    }
+        public JsonResult edit_pallet(string pallet) {
 
-
-                    message.Add( item+ " Has Been Deleted from Pallet : " + pallet_name);
-                }
-                catch (Exception e)
-                {
-                    message.Add(e.InnerException.InnerException.Message);
-                    continue;
-                }
-            }
-           
-            foreach (var item in difference) {
-
-                if (item != 0) {
-                    try
-                    {
-                        var entry = new pallet();
-
-                        entry.ictags = item;
-                        entry.pallet_name = pallet_name;
-
-                        db.pallet.Add(entry);
-
-                        message.Add(item.ToString() + "Successfully Added to Pallet: " + pallet_name);
-                        db.SaveChanges();
-                    }
-                    catch(Exception e)
-                    {
-                        message.Add(e.InnerException.InnerException.Message);
-                        continue;
-                    }
-                }
-
-
-
-
-                message.Add("Task Complete");
-
+            var result = (from d in db.pallet where d.pallet_name == pallet select d).ToList();
             
+
+
+            return Json(result,JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult get_pallet_detail(string pallet_name) {
+
+            var result = (from o in db.pallet where o.pallet_name == pallet_name from h in db.discovery where h.ictag == o.ictags select new { ictags = o.ictags, pallet_name = o.pallet_name, note = o.note, brand = h.brand, model = h.model, cpu = h.cpu, ram = h.ram, hdd = h.hdd, optical_drive = h.optical_drive }).ToList();
+
+            //get cpu data for generateing graph in detail
+            //var cpu = (from p in db.pallet where p.pallet_name == pallet_name join h in db.discovery on p.ictags equals h.ictag  select  new {cpu = h.cpu}).ToList().GroupBy(x=>x.cpu).Select(g=>g.First());
+            var cpu_count = from l in result group l by l.cpu into g select new { cpu = g.Key, Count = (from l in g select l.cpu).Count() };
+            var model_count = from l in result group l by l.model into g select new { model = g.Key, Count = (from l in g select l.model).Count() };
+            var brand_count = from l in result group l by l.brand into g select new { brand = g.Key, Count = (from l in g select l.brand).Count() };
+            var note = (from n in db.pallet where n.pallet_name == pallet_name select n.note).FirstOrDefault();
+            return Json(new { note=note,cpu_count = cpu_count,model_count = model_count, brand_count=brand_count },JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult remove_asset(string asset) {
+
+            string message = "";
+            //remove any pallet name from para
+            try
+            {
+                using (var remove = new db_a094d4_demoEntities1())
+                {
+                    remove.Database.ExecuteSqlCommand(
+                    "Delete from pallet where ictags = '" + asset + "'");
+                }
+
+                
+                message = asset + " Has Been Deleted";
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
             }
 
-            return Json( new { message=message},JsonRequestBehavior.AllowGet);
-
+            return Json(message,JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult remove_pallet(string pallet_name)
@@ -267,16 +241,51 @@ namespace Demo.Controllers
        public JsonResult get_pallet(string pallet_name)
         {
 
-            var result = (from t in db.pallet where t.pallet_name == pallet_name select new { t.ictags, t.pallet_name }).ToList();
+            var result = (from t in db.pallet join h in db.discovery on t.ictags equals h.ictag where pallet_name == t.pallet_name select new { t.ictags,h.model,h.brand,h.serial, h.cpu, h.ram, h.hdd, h.optical_drive}).ToList();
 
+
+           // var result = (from t in db.pallet where t.pallet_name == pallet_name select new { t.ictags, t.pallet_name }).ToList();
+
+           
+           
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult mark_pallet(string pallet_name) {
+
+
+            string message = "";
+            //remove any pallet name from para
+            try
+            {
+                using (var remove = new db_a094d4_demoEntities1())
+                {
+                    remove.Database.ExecuteSqlCommand(
+                    "Update pallet set type = 'shipped' where pallet_name = '" + pallet_name + "'");
+                }
+
+
+                message = pallet_name + " Has Been Mark as Shipped You can View it at Shipped Tab";
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+            }
+
+            return Json(message, JsonRequestBehavior.AllowGet);
+
+
+           
         }
 
         public JsonResult get_data ()
         {
             //gather all pallet infomation for the pallet index page
-            var data = db.Database.SqlQuery<Models.SQLModel.PalletData>("select pallet_name, count(*) as num from pallet group by pallet_name").ToList<Models.SQLModel.PalletData>();
-            return Json(data,JsonRequestBehavior.AllowGet);
+            var not_shipped = db.Database.SqlQuery<Models.SQLModel.PalletData>("select pallet_name, count(*) as num from pallet where type != 'shipped' or type is null group by pallet_name").ToList<Models.SQLModel.PalletData>();
+            var shipped = db.Database.SqlQuery<Models.SQLModel.PalletData>("select pallet_name, count(*) as num from pallet where type = 'shipped' group by pallet_name").ToList<Models.SQLModel.PalletData>();
+
+            return Json(new { not_shipped= not_shipped , shipped = shipped },JsonRequestBehavior.AllowGet);
         }
 
 

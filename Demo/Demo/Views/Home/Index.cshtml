@@ -7,111 +7,98 @@
 <link href="~/Content/daterangepicker.min.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.daterangepicker.min.js"></script>
 
-<div class="row">
-    @* top section of the page *@
-    <div class="col s12">
 
-
-
+<div id="right_charm" data-role="charm">
+    <div class="input-control text" data-role="input">
+        <label>Select Date Range</label>
+        <input id="range" type="text">
+        <button id="date_report" class="button"><span class="mif-search"></span></button>
     </div>
-    <div class="col s12">
-        <div class="row">
-            <form>
-                <div class="col s6">
-                    <h3 class="header">Dashboard</h3>
-                    
-                </div>
-                <div class="input-field col s6">
-                    <input id="range" size="40" placeholder="Select Date Range">
-                    <a id="date_report" class="waves-effect waves-light btn">Submit</a>
-                    <div id="preloader" class="preloader-wrapper">
-                        <div class="spinner-layer spinner-green-only">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div><div class="gap-patch">
-                                <div class="circle"></div>
-                            </div><div class="circle-clipper right">
-                                <div class="circle"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               
-            </form>
-        </div>
- 
-                <div class="divider"></div>
+    
+</div>
+
+
+<h1 class="leader">Dashboard</h1>
+<div id="loader" data-role="preloader" data-type="metro" data-style="color"></div>
+
+    <div class="tile-container bg-darkCobalt">
+        <div class="tile bg-cyan fg-white" data-role="tile">
+            <div class="tile-content iconic">
+                <span class="icon mif-earth2"></span>
+                <span class="tile-label">Discovery</span>
+                <span id="discovery_num" class="tile-badge bg-darkRed">0</span>
             </div>
-    <div class="col s3">
-        <div class="card-panel hoverable   light-blue lighten-3">
-            <h5>Discovery</h5>
-            <h3 id="discovery_num">0</h3>
         </div>
+        <div class="tile bg-cyan fg-white" data-role="tile">
+            <div class="tile-content iconic">
+                <span class="icon mif-user-check"></span>
+                <span class="tile-label">Rediscovery</span>
+                <span id="rediscovery_num" class="tile-badge bg-darkRed">0</span>
+            </div>
         </div>
-    <div class="col s3">
-        <div class="card-panel hoverable  light-blue lighten-3">
-            <h5>Rediscovery</h5>
-            <h3 id="rediscovery_num">0</h3>
+        <div class="tile bg-cyan fg-white" data-role="tile">
+            <div class="tile-content iconic">
+                <span class="icon mif-windows"></span>
+                <span class="tile-label">Imaging</span>
+                <span id="imaging_num" class="tile-badge bg-darkRed">0</span>
+            </div>
         </div>
-    </div>
-    <div class="col s3">
-        <div class="card-panel hoverable  light-blue lighten-3">
-            <h5>Imaging</h5>
-            <h3 id="imaging_num">0</h3>
+        <div class="tile-wide bg-cyan fg-white" data-role="tile">
+            <div class="tile-content iconic">
+                <span class="icon mif-display"></span>
+                <span class="tile-label">Monitor Discovery</span>
+                <span id="monitor_dis_num" class="tile-badge bg-darkRed">0</span>
+            </div>
         </div>
-    </div>
-    <div class="col s3">
-        <div class="card-panel hoverable  light-blue lighten-3">
-            <h5>Monitor Discovery</h5>
-            <h3 id="monitor_dis_num">0</h3>
+        <div class="tile bg-cyan fg-white" data-role="tile" onclick="toggleMetroCharm('#right_charm', 'top')">
+            <div class="tile-content iconic">
+                <span class="icon mif-calendar"></span>
+                <span class="tile-label">Select Date Range</span>
+                
+            </div>
         </div>
-    </div>
-
-
-        @* body of the page *@
-        <div class="col s6">
-            <div class="card-panel grey lighten-2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Left:Windows COA, Right:Office COA">
-                <h3 class="header">COAs Level</h3>
-
+        <div class="tile-large tile-big-x tile-wide-y bg-grayLighter fg-black" data-role="tile">
+            <div class="tile-content">
                 <div class="ct-chart ct-golden-section" id="chart1"></div>
+                <span class="tile-label">COA Level</span>
+               
             </div>
         </div>
-        <div class="col s6">
-            <div class="card-panel grey lighten-2">
-                <h3 class="header">Production Level</h3>
-
-                <div class="ct-chart ct-golden-section" id="production_chart"></div>
+        <div class="tile-large tile-big-x tile-wide-y bg-grayLighter fg-black" data-role="tile">
+            <div class="tile-content iconic">
+              <div class="ct-chart ct-golden-section" id="production_chart"></div>
+                <span class="tile-label">Production Level</span>
+                
             </div>
         </div>
-    <div class="col s4">
-        <div class="card-panel grey lighten-2">
-            <h3 class="header">Discovery Level (Weekly)</h3>
+        <div class="tile-large tile-wide-x tile-wide-y bg-grayLighter fg-black" data-role="tile">
+            <div class="tile-content iconic">
+                <div class="ct-chart ct-golden-section" id="week_discovery_chart"></div>
+                <span class="tile-label">Discovery Level (Weekly)</span>
 
-            <div class="ct-chart ct-golden-section" id="week_discovery_chart"></div>
+            </div>
+        </div>
+        <div class="tile-large tile-wide-x tile-wide-y bg-grayLighter fg-black" data-role="tile">
+            <div class="tile-content iconic">
+                <div class="ct-chart ct-golden-section" id="week_rediscovery_chart"></div>
+                <span class="tile-label">Refurb Level (Weekly)</span>
+
+            </div>
+        </div>
+        <div class="tile-large tile-wide-x tile-wide-y bg-grayLighter fg-black" data-role="tile">
+            <div class="tile-content iconic">
+                <div class="ct-chart ct-golden-section" id="week_production_chart"></div>
+                <span class="tile-label">Imaging Level (Weekly)</span>
+
+            </div>
         </div>
     </div>
-    <div class="col s4">
-        <div class="card-panel grey lighten-2">
-            <h3 class="header">Refrub Level (Weekly)</h3>
-
-            <div class="ct-chart ct-golden-section" id="week_rediscovery_chart"></div>
-        </div>
-    </div>
-    <div class="col s4">
-        <div class="card-panel grey lighten-2">
-            <h3 class="header">Imaging Level (Weekly)</h3>
-
-            <div class="ct-chart ct-golden-section" id="week_production_chart"></div>
-        </div>
-    </div>
-
-    </div>
 
 
 
-
-        <script>
-            $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
+            
                 var today = moment().format("YYYY-MM-DD");
 
                 var tmr = moment().add(1, 'days').format("YYYY-MM-DD");
@@ -120,13 +107,14 @@
                     from: today, to: tmr
                 }
                 get_date(date);
-                $('.tooltipped').tooltip({ delay: 50 });
+               // $('.tooltipped').tooltip({ delay: 50 });
                 $('#range').dateRangePicker();
             });
             // Initialize a Line chart in the container with the ID chart2
 
+       
             $('#date_report').click(function () {
-                
+
                 var ar = $('#range').val();
                 var spli = ar.split('to');
                 var from = spli[0];
@@ -138,7 +126,7 @@
                 }
 
                 get_date(date);
-
+                toggleMetroCharm('#right_charm', 'top');
             });
 
 
@@ -147,12 +135,14 @@
             //    selectYears: 15 // Creates a dropdown of 15 years to control year
             //});
 
-           
+
 
 
             function get_date(date) {
-                $('#preloader').attr('class', 'preloader-wrapper active');
+                $('#loader').show();
+                
                 $.getJSON("@Url.Action("get_data")", date, function (data) {
+                    
                     $('#preloader').attr('class', 'preloader-wrapper');
                     $('#discovery_num').text(data.discovery);
                     $('#rediscovery_num').text(data.rediscovery);
@@ -268,17 +258,17 @@
                             showArea: true
                         });
 
-
+                    $('#loader').hide();
 
                 });
 
 
 
-
+                
             }
 
 
 
-        </script>
+    </script>
 
 

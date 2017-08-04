@@ -138,6 +138,12 @@ namespace Demo.Views
             return View(discovery);
         }
 
+        public ActionResult delete() {
+
+
+            return View();
+        }
+
         // GET: discoveries/Delete/5
         public ActionResult Delete(int? id)
         {

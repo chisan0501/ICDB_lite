@@ -385,6 +385,7 @@ namespace Demo.Controllers
             return Json(new { message = message },JsonRequestBehavior.AllowGet);
         }
 
+        
         public JsonResult get_coas_station() {
 
             var result = (from t in db.station_setting select t.station_dropdown_value).ToList();
